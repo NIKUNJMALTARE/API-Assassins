@@ -37,23 +37,21 @@ export const fetchTeamById = async (id: string): Promise<Team> => {
 // Feedback API
 export const fetchFeedback = async (eventId: string): Promise<AttendeeFeedback[]> => {
   try {
-    // For demo purposes, using mock data
-    // In production, this would be an API call:
-    // const response = await api.get(`/feedback?eventId=${eventId}`);
-    // return response.data;
-    return SAMPLE_FEEDBACK.filter(feedback => feedback.eventId === eventId);
+    const response = await api.get(`/feedback`); // Match backend route
+    return response.data;
   } catch (error) {
     console.error('Error fetching feedback:', error);
     throw error;
   }
 };
 
+
 export const submitFeedback = async (feedback: Omit<AttendeeFeedback, 'id' | 'timestamp'>): Promise<AttendeeFeedback> => {
   try {
     // For demo purposes, we'll simulate an API response
     // In production, this would be:
-    // const response = await api.post('/feedback', feedback);
-    // return response.data;
+     const response = await api.post('/feedback/submit', feedback);
+     return response.data;
     
     const newFeedback: AttendeeFeedback = {
       ...feedback,

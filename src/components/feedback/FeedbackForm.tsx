@@ -1,5 +1,5 @@
-
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid'; // Import UUID
 import { AttendeeFeedback, FEEDBACK_CATEGORIES, FeedbackRating, FeedbackReaction } from '@/utils/feedbackData';
 import { useFeedbackStore } from '@/store/feedbackStore';
 import { Button } from '@/components/ui/button';
@@ -46,13 +46,16 @@ const FeedbackForm = ({ eventId, teamId, onSuccess }: FeedbackFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate required fields
     if (!isAnonymous && (!name || !email)) {
       toast.error('Please provide your name and email, or submit anonymously');
       return;
     }
+
+    const feedbackId = uuidv4(); // Generate unique feedback ID
     
-    const feedbackData: Omit<AttendeeFeedback, 'id' | 'timestamp'> = {
+    const feedbackData: AttendeeFeedback = {
+      id: feedbackId, // Attach generated ID
+      timestamp: new Date().toISOString(),
       eventId,
       teamId,
       ratings,
@@ -82,14 +85,6 @@ const FeedbackForm = ({ eventId, teamId, onSuccess }: FeedbackFormProps) => {
       console.error('Feedback submission error:', error);
     }
   };
-  
-  const reactionIcons = {
-    excited: { icon: <ThumbsUp className="w-10 h-10" />, label: 'Excited' },
-    happy: { icon: <Smile className="w-10 h-10" />, label: 'Happy' },
-    neutral: { icon: <Meh className="w-10 h-10" />, label: 'Neutral' },
-    disappointed: { icon: <Frown className="w-10 h-10" />, label: 'Disappointed' },
-    frustrated: { icon: <Angry className="w-10 h-10" />, label: 'Frustrated' }
-  };
 
   return (
     <Card className="w-full max-w-3xl mx-auto">
@@ -106,19 +101,23 @@ const FeedbackForm = ({ eventId, teamId, onSuccess }: FeedbackFormProps) => {
           <div className="space-y-2">
             <Label>How would you rate your overall experience?</Label>
             <div className="flex justify-between items-center mt-2">
-              {(Object.entries(reactionIcons) as [FeedbackReaction, { icon: JSX.Element, label: string }][]).map(([key, { icon, label }]) => (
+              {(['excited', 'happy', 'neutral', 'disappointed', 'frustrated'] as FeedbackReaction[]).map((key) => (
                 <button
                   key={key}
                   type="button"
-                  onClick={() => setReaction(key as FeedbackReaction)}
+                  onClick={() => setReaction(key)}
                   className={`flex flex-col items-center p-3 rounded-lg transition-all ${
                     reaction === key 
                       ? 'bg-primary text-primary-foreground scale-110' 
                       : 'bg-secondary hover:bg-secondary/80'
                   }`}
                 >
-                  {icon}
-                  <span className="text-xs mt-1">{label}</span>
+                  {key === 'excited' && <ThumbsUp className="w-10 h-10" />}
+                  {key === 'happy' && <Smile className="w-10 h-10" />}
+                  {key === 'neutral' && <Meh className="w-10 h-10" />}
+                  {key === 'disappointed' && <Frown className="w-10 h-10" />}
+                  {key === 'frustrated' && <Angry className="w-10 h-10" />}
+                  <span className="text-xs mt-1 capitalize">{key}</span>
                 </button>
               ))}
             </div>
@@ -148,7 +147,6 @@ const FeedbackForm = ({ eventId, teamId, onSuccess }: FeedbackFormProps) => {
                   />
                   <span className="text-sm text-muted-foreground">Excellent</span>
                 </div>
-                <p className="text-xs text-muted-foreground">{category.description}</p>
               </div>
             ))}
           </div>
