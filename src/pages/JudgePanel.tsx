@@ -171,11 +171,11 @@ const JudgePanel = () => {
       <main className="container px-4 md:px-6 pt-24 pb-16">
         <Button variant="ghost" asChild className="mb-6 -ml-3">
           <Link to="/">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard
+            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Home
           </Link>
         </Button>
         
-        <h1 className="text-3xl font-bold mb-6">Judge Panel</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center">Judge Panel</h1>
         
         <div className="mb-8">
           <RoundTabs activeRound={activeRound} onRoundChange={setActiveRound} />

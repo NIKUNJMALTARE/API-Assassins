@@ -88,7 +88,7 @@ const Teams = () => {
       <Navbar />
       
       <main className="container px-4 md:px-6 pt-24 pb-16">
-        <h1 className="text-3xl font-bold mb-6">Teams</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center">Teams</h1>
         
         <div className="mb-8">
           <RoundTabs activeRound={activeRound} onRoundChange={setActiveRound} />

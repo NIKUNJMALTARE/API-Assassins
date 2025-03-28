@@ -75,7 +75,7 @@ export const addScore = async (teamId: string, scoreData: any): Promise<void> =>
   try {
     // For demo purposes, we'll simulate an API response
     // In production, this would be:
-    // await api.post(`/teams/${teamId}/scores`, scoreData);
+     await api.post(`/teams/${teamId}/scores`, scoreData);
     
     console.log(`Added score for team ${teamId}:`, scoreData);
     
@@ -91,7 +91,7 @@ export const addFeedback = async (teamId: string, feedbackData: any): Promise<vo
   try {
     // For demo purposes, we'll simulate an API response
     // In production, this would be:
-    // await api.post(`/teams/${teamId}/feedback`, feedbackData);
+     await api.post(`/teams/${teamId}/feedback`, feedbackData);
     
     console.log(`Added feedback for team ${teamId}:`, feedbackData);
     
