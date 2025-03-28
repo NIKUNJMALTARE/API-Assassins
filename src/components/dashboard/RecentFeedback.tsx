@@ -24,15 +24,21 @@ const RecentFeedback = () => {
     frustrated: <Angry className="w-5 h-5 text-red-500" />
   };
   
-  const formatDate = (timestamp: string) => {
-    const date = new Date(timestamp);
-    return new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    }).format(date);
+  const formatDate = (dateString: string | undefined | null): string => {
+    if (!dateString) return "Invalid Date"; // Handle null or undefined cases
+  
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "Invalid Date"; // Handle incorrect date format
+  
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
   };
+  
 
   return (
     <Card>

@@ -37,7 +37,7 @@ export const fetchTeamById = async (id: string): Promise<Team> => {
 // Feedback API
 export const fetchFeedback = async (eventId: string): Promise<AttendeeFeedback[]> => {
   try {
-    const response = await api.get(`/feedback`); // Match backend route
+    const response = await api.get('/feedback/all'); // Match backend route
     return response.data;
   } catch (error) {
     console.error('Error fetching feedback:', error);
